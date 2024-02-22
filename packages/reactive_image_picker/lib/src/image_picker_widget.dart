@@ -116,7 +116,8 @@ class ImagePickerWidget extends StatelessWidget {
         }
         break;
       case ImagePickerMode.galleryMultiImage:
-        return await _pickMultiGalleryImage();
+        final files = await _pickMultiGalleryImage();
+        result = files;
       case ImagePickerMode.galleryVideo:
         final file = await _pickGalleryVideo();
         if (file != null) {
