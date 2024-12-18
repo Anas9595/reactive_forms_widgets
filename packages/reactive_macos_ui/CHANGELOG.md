@@ -1,3 +1,11 @@
+## [2.0.2]
+
+* macos_ui: ^2.0.7
+
+## [2.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [2.0.0]
 
 * rf16

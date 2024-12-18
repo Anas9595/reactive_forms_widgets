@@ -7,7 +7,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   FormGroup buildForm() => fb.group({
         'input': FormControl<bool>(
@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
                   children: [
                     ReactiveInputDecorator(
                       formControlName: 'input',
+                      errorBuilder: (_, text) => Text('${text}+'),
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,

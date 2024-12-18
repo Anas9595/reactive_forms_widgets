@@ -13,6 +13,17 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 export 'package:extended_text_field/extended_text_field.dart';
 
+Widget _defaultContextMenuBuilder(
+    BuildContext context, ExtendedEditableTextState editableTextState) {
+  return AdaptiveTextSelectionToolbar.buttonItems(
+    buttonItems: editableTextState.contextMenuButtonItems,
+    anchors: editableTextState.contextMenuAnchors,
+  );
+  // return AdaptiveTextSelectionToolbar.editableText(
+  //   editableTextState: editableTextState,
+  // );
+}
+
 /// A [ReactiveExtendedTextField] that contains a [PhoneFormField].
 ///
 /// This is a convenience widget that wraps a [PhoneFormField] widget in a
@@ -85,12 +96,12 @@ class ReactiveExtendedTextField<T> extends ReactiveFormField<T, String> {
   /// For documentation about the various parameters, see the [PhoneFormField] class
   /// and [PhoneFormField], the constructor.
   ReactiveExtendedTextField({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, String>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     bool shouldFormat = true,
@@ -146,16 +157,20 @@ class ReactiveExtendedTextField<T> extends ReactiveFormField<T, String> {
     TextCapitalization textCapitalization = TextCapitalization.none,
     bool scribbleEnabled = true,
     bool enableIMEPersonalizedLearning = true,
-    ShouldShowSelectionHandlesCallback? shouldShowSelectionHandles,
-    TextSelectionGestureDetectorBuilderCallback?
-        textSelectionGestureDetectorBuilder,
+    bool? cursorOpacityAnimates,
+    Color? cursorErrorColor,
+    UndoHistoryController? undoController,
+    WidgetStatesController? statesController,
+    bool onTapAlwaysCalled = false,
+    TapRegionCallback? onTapOutside,
+    InputCounterWidgetBuilder? buildCounter,
+    ContentInsertionConfiguration? contentInsertionConfiguration,
+    Clip clipBehavior = Clip.hardEdge,
+    ExtendedEditableTextContextMenuBuilder? extendedContextMenuBuilder =
+        _defaultContextMenuBuilder,
+    bool canRequestFocus = true,
+    TextMagnifierConfiguration? magnifierConfiguration,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
             final state = field as _ReactivePhoneFormFieldState<T>;
             final effectiveDecoration = decoration
@@ -166,6 +181,8 @@ class ReactiveExtendedTextField<T> extends ReactiveFormField<T, String> {
             return ExtendedTextField(
               focusNode: state.focusNode,
               controller: state._textController,
+              undoController: undoController,
+              statesController: statesController,
               onChanged: field.didChange,
               autofillHints: autofillHints,
               autofocus: autofocus,
@@ -224,9 +241,16 @@ class ReactiveExtendedTextField<T> extends ReactiveFormField<T, String> {
               specialTextSpanBuilder: specialTextSpanBuilder,
               scribbleEnabled: scribbleEnabled,
               enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
-              shouldShowSelectionHandles: shouldShowSelectionHandles,
-              textSelectionGestureDetectorBuilder:
-                  textSelectionGestureDetectorBuilder,
+              cursorOpacityAnimates: cursorOpacityAnimates,
+              cursorErrorColor: cursorErrorColor,
+              onTapAlwaysCalled: onTapAlwaysCalled,
+              onTapOutside: onTapOutside,
+              buildCounter: buildCounter,
+              clipBehavior: clipBehavior,
+              contentInsertionConfiguration: contentInsertionConfiguration,
+              extendedContextMenuBuilder: extendedContextMenuBuilder,
+              canRequestFocus: canRequestFocus,
+              magnifierConfiguration: magnifierConfiguration,
             );
           },
         );

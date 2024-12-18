@@ -1,3 +1,13 @@
+## [3.1.0]
+
+* added `PhoneNumberValueAccessor` which assigns `null` if `nsn` is empty could be added upon demand
+* updated package
+
+## [3.0.0]
+
+* Support `reactive_forms: 17.x`
+* Support `phone_form_field: 9.x` (read [BREAKING CHANGES](https://pub.dev/packages/phone_form_field/changelog#900))
+
 ## [2.0.1]
 
 * export validators

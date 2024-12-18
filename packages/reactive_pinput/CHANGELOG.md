@@ -1,3 +1,11 @@
+## [4.0.0]
+
+* pinput: ^5.0.0
+
+## [3.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [3.0.0]
 
 * pinput update

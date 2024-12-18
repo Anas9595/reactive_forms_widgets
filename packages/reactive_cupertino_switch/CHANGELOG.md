@@ -1,3 +1,11 @@
+## [2.1.0]
+
+* update api
+
+## [2.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [2.0.0]
 
 * rf16

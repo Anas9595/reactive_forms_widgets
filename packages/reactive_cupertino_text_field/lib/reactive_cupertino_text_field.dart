@@ -28,6 +28,13 @@ const Border _kDefaultRoundedBorder = Border(
   right: _kDefaultRoundedBorderSide,
 );
 
+Widget _defaultContextMenuBuilder(
+    BuildContext context, EditableTextState editableTextState) {
+  return CupertinoAdaptiveTextSelectionToolbar.editableText(
+    editableTextState: editableTextState,
+  );
+}
+
 const BoxDecoration _kDefaultRoundedBorderDecoration = BoxDecoration(
   color: CupertinoDynamicColor.withBrightness(
     color: CupertinoColors.white,
@@ -109,15 +116,15 @@ class ReactiveCupertinoTextField<T> extends ReactiveFormField<T, String> {
   /// For documentation about the various parameters, see the [TextField] class
   /// and [TextField], the constructor.
   ReactiveCupertinoTextField({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, String>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
-    BoxDecoration decoration = _kDefaultRoundedBorderDecoration,
+    BoxDecoration? decoration = _kDefaultRoundedBorderDecoration,
     InputDecoration inputDecoration = const InputDecoration(
       border: InputBorder.none,
       contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -177,13 +184,18 @@ class ReactiveCupertinoTextField<T> extends ReactiveFormField<T, String> {
       color: CupertinoColors.placeholderText,
     ),
     bool scribbleEnabled = true,
+    UndoHistoryController? undoController,
+    String? clearButtonSemanticLabel,
+    TapRegionCallback? onTapOutside,
+    bool cursorOpacityAnimates = true,
+    ContentInsertionConfiguration? contentInsertionConfiguration,
+    Clip clipBehavior = Clip.hardEdge,
+    bool enableIMEPersonalizedLearning = true,
+    EditableTextContextMenuBuilder? contextMenuBuilder =
+        _defaultContextMenuBuilder,
+    SpellCheckConfiguration? spellCheckConfiguration,
+    TextMagnifierConfiguration? magnifierConfiguration,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
             final state = field as _ReactiveCupertinoTextFieldState<T>;
             final effectiveDecoration = inputDecoration
@@ -257,6 +269,16 @@ class ReactiveCupertinoTextField<T> extends ReactiveFormField<T, String> {
                 autofillHints: autofillHints,
                 restorationId: restorationId,
                 scribbleEnabled: scribbleEnabled,
+                undoController: undoController,
+                clearButtonSemanticLabel: clearButtonSemanticLabel,
+                onTapOutside: onTapOutside,
+                cursorOpacityAnimates: cursorOpacityAnimates,
+                contentInsertionConfiguration: contentInsertionConfiguration,
+                clipBehavior: clipBehavior,
+                enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
+                contextMenuBuilder: contextMenuBuilder,
+                spellCheckConfiguration: spellCheckConfiguration,
+                magnifierConfiguration: magnifierConfiguration,
               ),
             );
           },

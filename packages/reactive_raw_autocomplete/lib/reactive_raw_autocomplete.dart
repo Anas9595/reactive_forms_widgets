@@ -13,6 +13,13 @@ import 'package:reactive_forms/reactive_forms.dart';
 typedef ControllerInitCallback = void Function(
     TextEditingController controller);
 
+Widget _defaultContextMenuBuilder(
+    BuildContext context, EditableTextState editableTextState) {
+  return AdaptiveTextSelectionToolbar.editableText(
+    editableTextState: editableTextState,
+  );
+}
+
 /// A [ReactiveRawAutocomplete] that contains a [TextField].
 ///
 /// This is a convenience widget that wraps a [TextField] widget in a
@@ -90,12 +97,12 @@ class ReactiveRawAutocomplete<T, V extends Object>
   /// For documentation about the various parameters, see the [RawAutocomplete] class
   /// and [RawAutocomplete], the constructor.
   ReactiveRawAutocomplete({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, V>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     required AutocompleteOptionsBuilder<V> optionsBuilder,
@@ -155,13 +162,22 @@ class ReactiveRawAutocomplete<T, V extends Object>
     this.onControllerInit,
     bool scribbleEnabled = true,
     bool enableIMEPersonalizedLearning = true,
+    OptionsViewOpenDirection optionsViewOpenDirection =
+        OptionsViewOpenDirection.down,
+    UndoHistoryController? undoController,
+    TapRegionCallback? onTapOutside,
+    bool cursorOpacityAnimates = true,
+    ContentInsertionConfiguration? contentInsertionConfiguration,
+    Clip clipBehavior = Clip.hardEdge,
+    EditableTextContextMenuBuilder? contextMenuBuilder =
+        _defaultContextMenuBuilder,
+    SpellCheckConfiguration? spellCheckConfiguration,
+    TextMagnifierConfiguration? magnifierConfiguration,
+    bool onTapAlwaysCalled = false,
+    bool canRequestFocus = true,
+    Color? cursorErrorColor,
+    MaterialStatesController? statesController,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
             final state = field as _ReactiveRawAutocompleteState<T, V>;
             final effectiveDecoration = decoration
@@ -257,6 +273,19 @@ class ReactiveRawAutocomplete<T, V extends Object>
                       scribbleEnabled: scribbleEnabled,
                       enableIMEPersonalizedLearning:
                           enableIMEPersonalizedLearning,
+                      undoController: undoController,
+                      onTapOutside: onTapOutside,
+                      cursorOpacityAnimates: cursorOpacityAnimates,
+                      contentInsertionConfiguration:
+                          contentInsertionConfiguration,
+                      clipBehavior: clipBehavior,
+                      contextMenuBuilder: contextMenuBuilder,
+                      spellCheckConfiguration: spellCheckConfiguration,
+                      magnifierConfiguration: magnifierConfiguration,
+                      statesController: statesController,
+                      cursorErrorColor: cursorErrorColor,
+                      onTapAlwaysCalled: onTapAlwaysCalled,
+                      canRequestFocus: canRequestFocus,
                     );
                   },
             );
@@ -307,7 +336,11 @@ class _ReactiveRawAutocompleteState<T, V extends Object>
 
   @override
   void onControlValueChanged(dynamic value) {
-    final effectiveValue = (value == null) ? '' : value.toString();
+    final widgetInstance = (widget as ReactiveRawAutocomplete<T, V>);
+
+    final effectiveValue = (value == null)
+        ? ''
+        : widgetInstance.displayStringForOption(value as V);
     _textController.value = _textController.value.copyWith(
       text: effectiveValue,
       selection: TextSelection.collapsed(offset: effectiveValue.length),

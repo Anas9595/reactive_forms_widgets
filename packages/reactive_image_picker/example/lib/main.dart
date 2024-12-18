@@ -11,7 +11,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   Future<void> _photoDenied(BuildContext context) async =>
       await showDialog<void>(
@@ -135,11 +135,54 @@ class MyApp extends StatelessWidget {
                                 }
                               }
                             },
-                            inputBuilder: (onPressed) => TextButton.icon(
-                              onPressed: onPressed,
-                              icon: const Icon(Icons.add),
-                              label: const Text('Add an image'),
+                            selectedValueBuilder:
+                                (context, value, _, handleChange) {
+                              return Wrap(
+                                runSpacing: 24,
+                                spacing: 24,
+                                children: value
+                                    .map(
+                                      (e) => e.map(
+                                        video: (_) => Text("video"),
+                                        image: (i) => SizedBox.square(
+                                            dimension: 50,
+                                            child: InkWell(
+                                                onTap: () {
+                                                  handleChange(
+                                                    context,
+                                                    null,
+                                                  );
+                                                },
+                                                child: ImageView(image: i))),
+                                      ),
+                                    )
+                                    .toList()
+                                  ..add(IconButton(
+                                    style: IconButton.styleFrom(
+                                      minimumSize: Size.square(50),
+                                    ),
+                                    onPressed: () => handleChange(
+                                      context,
+                                      null,
+                                    ),
+                                    icon: const Icon(Icons.read_more),
+                                  )),
+                              );
+                            },
+                            inputBuilder: (onPressed) => Center(
+                              child: IconButton(
+                                style: IconButton.styleFrom(
+                                  minimumSize: Size.square(100),
+                                ),
+                                onPressed: onPressed,
+                                icon: const Icon(Icons.read_more),
+                              ),
                             ),
+                            // TextButton.icon(
+                            //   onPressed: onPressed,
+                            //   icon: const Icon(Icons.add),
+                            //   label: const Text('Add an image'),
+                            // ),
                           ),
                           const SizedBox(height: 16),
                           ElevatedButton(

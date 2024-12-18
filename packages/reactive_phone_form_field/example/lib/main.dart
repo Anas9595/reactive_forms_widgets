@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
             isoCode: IsoCode.UA,
             nsn: '933456789',
           ),
+          validators: [
+            // PhoneValidators.required,
+            // PhoneValidators.valid,
+          ],
         ),
       });
 
@@ -23,10 +27,31 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      localizationsDelegates: const [
+        ...PhoneFieldLocalization.delegates,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('es', ''),
+        Locale('fr', ''),
+        Locale('ru', ''),
+        Locale('uz', ''),
+        Locale('uk', ''),
+        Locale('ar', ''),
+      ],
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      builder: (context, child) {
+        return ReactiveFormConfig(
+          validationMessages: {
+            // either configure validation messages globally, or for each control
+            ...PhoneValidationMessage.localizedValidationMessages(context),
+          },
+          child: child!,
+        );
+      },
       home: Scaffold(
         appBar: AppBar(),
         body: SafeArea(
@@ -44,6 +69,12 @@ class MyApp extends StatelessWidget {
                     ReactivePhoneFormField<PhoneNumber>(
                       formControlName: 'input',
                       focusNode: FocusNode(),
+                      valueAccessor: PhoneNumberValueAccessor(),
+                      // validationMessages: {
+                      //   ...PhoneValidationMessage.localizedValidationMessages(
+                      //     context,
+                      //   ),
+                      // },
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(

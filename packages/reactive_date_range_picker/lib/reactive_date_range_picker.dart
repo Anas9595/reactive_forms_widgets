@@ -44,12 +44,12 @@ class ReactiveDateRangePicker extends ReactiveFormField<DateTimeRange, String> {
   /// For documentation about the various parameters, see the [showDateRangePicker]
   /// function parameters.
   ReactiveDateRangePicker({
-    Key? key,
-    String? formControlName,
-    FormControl<DateTimeRange>? formControl,
+    super.key,
+    super.formControlName,
+    super.formControl,
     ControlValueAccessor<DateTimeRange, String>? valueAccessor,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ShowErrorsFunction<DateTimeRange>? showErrors,
+    super.validationMessages,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     InputDecoration? decoration,
@@ -76,13 +76,14 @@ class ReactiveDateRangePicker extends ReactiveFormField<DateTimeRange, String> {
     Locale? locale,
     TextDirection? textDirection,
     RouteSettings? routeSettings,
+    bool barrierDismissible = true,
+    Color? barrierColor,
+    Offset? anchorPoint,
+    TextInputType keyboardType = TextInputType.datetime,
+    Icon? switchToInputEntryModeIcon,
+    Icon? switchToCalendarEntryModeIcon,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          validationMessages: validationMessages,
           valueAccessor: valueAccessor ?? DateTimeRangeValueAccessor(),
-          showErrors: showErrors,
           builder: (field) {
             Widget? suffixIcon = decoration?.suffixIcon;
             final isEmptyValue =
@@ -136,6 +137,13 @@ class ReactiveDateRangePicker extends ReactiveFormField<DateTimeRange, String> {
                     routeSettings: routeSettings,
                     textDirection: textDirection,
                     builder: builder,
+                    barrierDismissible: barrierDismissible,
+                    barrierColor: barrierColor,
+                    anchorPoint: anchorPoint,
+                    keyboardType: keyboardType,
+                    switchToInputEntryModeIcon: switchToInputEntryModeIcon,
+                    switchToCalendarEntryModeIcon:
+                        switchToCalendarEntryModeIcon,
                   );
 
                   if (dateRange == null) {

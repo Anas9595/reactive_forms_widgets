@@ -84,12 +84,12 @@ class ReactivePinPut<T> extends ReactiveFormField<T, String> {
   /// For documentation about the various parameters, see the [PinPut] class
   /// and [PinPut], the constructor.
   ReactivePinPut({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, String>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     required int length,
@@ -153,13 +153,8 @@ class ReactivePinPut<T> extends ReactiveFormField<T, String> {
     bool isCursorAnimationEnabled = true,
     EdgeInsets scrollPadding = const EdgeInsets.all(20),
     TapRegionCallback? onTapOutside,
+    SmsRetriever? smsRetriever,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
             final state = field as _ReactiveMacosTextFieldState<T>;
 
@@ -197,13 +192,10 @@ class ReactivePinPut<T> extends ReactiveFormField<T, String> {
               errorPinTheme: errorPinTheme,
               obscuringCharacter: obscuringCharacter,
               obscuringWidget: obscuringWidget,
-              androidSmsAutofillMethod: androidSmsAutofillMethod,
-              listenForMultipleSmsOnAndroid: listenForMultipleSmsOnAndroid,
               mainAxisAlignment: mainAxisAlignment,
               crossAxisAlignment: crossAxisAlignment,
               pinContentAlignment: pinContentAlignment,
               errorTextStyle: errorTextStyle,
-              // errorBuilder: errorBuilder,
               errorText: state.errorText,
               forceErrorState: forceErrorState,
               mouseCursor: mouseCursor,
@@ -217,15 +209,14 @@ class ReactivePinPut<T> extends ReactiveFormField<T, String> {
               showCursor: showCursor,
               toolbarEnabled: toolbarEnabled,
               readOnly: readOnly,
-              smsCodeMatcher: smsCodeMatcher,
               onCompleted: onCompleted,
               onSubmitted: onSubmitted,
               onLongPress: onLongPress,
               enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
-              senderPhoneNumber: senderPhoneNumber,
               isCursorAnimationEnabled: isCursorAnimationEnabled,
               scrollPadding: scrollPadding,
               onTapOutside: onTapOutside,
+              smsRetriever: smsRetriever,
             );
           },
         );

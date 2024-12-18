@@ -1,3 +1,15 @@
+## [2.1.1]
+
+* allow null for decoration property
+
+## [2.1.0]
+
+* props update
+
+## [2.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [2.0.0]
 
 * rf16

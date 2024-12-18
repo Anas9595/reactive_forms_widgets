@@ -16,6 +16,7 @@ typedef OnBeforeChangeCallback = Future<List<SelectedFile>> Function(
 typedef SelectedFileViewBuilder = Widget Function(SelectedFile image);
 
 typedef SelectedValueBuilder = Widget Function(
+  BuildContext context,
   List<SelectedFile> image,
   OnDelete handleDelete,
   OnChange handleChange,
@@ -34,6 +35,7 @@ typedef PreprocessPickerError = Future<void> Function(
 
 typedef DeleteDialogBuilder = Future<void> Function(
   BuildContext context,
+  SelectedFile file,
   Function(SelectedFile file) onConfirm,
 );
 
@@ -45,6 +47,7 @@ typedef PopupDialogBuilder = Future<ImagePickerMode?> Function(
 class ImagePickerWidget extends StatelessWidget {
   final InputDecoration decoration;
   final OnBeforeChangeCallback? onBeforeChange;
+  final Size? mediaSize;
   final Widget? editIcon;
   final Widget? deleteIcon;
   final InputButtonBuilder? inputBuilder;
@@ -70,7 +73,7 @@ class ImagePickerWidget extends StatelessWidget {
   final SelectedVideoBuilder? selectedVideoBuilder;
 
   const ImagePickerWidget({
-    Key? key,
+    super.key,
     required this.value,
     required this.modes,
     this.enabled = true,
@@ -95,7 +98,8 @@ class ImagePickerWidget extends StatelessWidget {
     this.onAfterPick,
     this.selectedImageBuilder,
     this.selectedVideoBuilder,
-  }) : super(key: key);
+    this.mediaSize,
+  });
 
   Future<List<SelectedFile>> _onImageButtonPressed(
     BuildContext context,
@@ -290,6 +294,9 @@ class ImagePickerWidget extends StatelessWidget {
 
     if (mode != null) {
       List<SelectedFile> result = await _onImageButtonPressed(context, mode);
+      if (result.isEmpty) {
+        return;
+      }
 
       final index = value.indexWhere((e) => e == oldFile);
 
@@ -298,6 +305,14 @@ class ImagePickerWidget extends StatelessWidget {
           ...value.getRange(0, index),
           ...result,
           ...value.getRange(index + 1, value.length),
+        ];
+      }
+      // if the oldFile is null we assume that we would like to add more
+      // but not replace the images
+      else if(oldFile == null) {
+        result = [
+          ...value,
+          ...result,
         ];
       }
 
@@ -324,7 +339,9 @@ class ImagePickerWidget extends StatelessWidget {
 
   void _handleDelete(BuildContext context, SelectedFile file) async {
     if (deleteDialogBuilder != null) {
-      await deleteDialogBuilder?.call(context, _handleDeleteConfirm);
+      await deleteDialogBuilder?.call(context, file, (f) {
+        _handleDeleteConfirm(f);
+      });
       return;
     }
 
@@ -354,6 +371,7 @@ class ImagePickerWidget extends StatelessWidget {
 
   Widget _buildImage(BuildContext context) {
     return selectedValueBuilder?.call(
+          context,
           value,
           _handleDelete,
           _handleChange,
@@ -368,6 +386,7 @@ class ImagePickerWidget extends StatelessWidget {
                         selectedFileViewBuilder?.call(e) ??
                         SelectedFileView(
                           file: e,
+                          mediaSize: mediaSize,
                           selectedImageBuilder: selectedImageBuilder,
                           selectedVideoBuilder: selectedVideoBuilder,
                           changeIcon: editIcon,

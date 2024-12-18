@@ -1,3 +1,11 @@
+## [2.1.0]
+
+* flutter_advanced_switch update
+
+## [2.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [2.0.0]
 
 * rf16

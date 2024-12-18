@@ -74,12 +74,12 @@ class ReactiveToggleSwitch<T> extends ReactiveFormField<T, int> {
   /// For documentation about the various parameters, see the [ToggleSwitch] class
   /// and [ToggleSwitch], the constructor.
   ReactiveToggleSwitch({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, int>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     //////////////////////////////////////////////////////////////////////////
     List<Color>? borderColor,
@@ -114,13 +114,12 @@ class ReactiveToggleSwitch<T> extends ReactiveFormField<T, int> {
     bool doubleTapDisable = false,
     bool isVertical = false,
     List<Border?>? activeBorders,
+    bool centerText = false,
+    bool multiLineText = false,
+    List<Widget>? customWidgets,
+    CancelToggle? cancelToggle,
+    List<bool>? states,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
             return ToggleSwitch(
               borderColor: borderColor,
@@ -155,6 +154,11 @@ class ReactiveToggleSwitch<T> extends ReactiveFormField<T, int> {
               doubleTapDisable: doubleTapDisable,
               isVertical: isVertical,
               activeBorders: activeBorders,
+              states: states,
+              cancelToggle: cancelToggle,
+              centerText: centerText,
+              multiLineText: multiLineText,
+              customWidgets: customWidgets,
             );
           },
         );

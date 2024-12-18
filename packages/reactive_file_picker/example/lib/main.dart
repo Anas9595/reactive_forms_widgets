@@ -7,15 +7,16 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   FormGroup buildForm() => fb.group({
         'multiImage': FormControl<MultiFile<String>>(
-          value: const MultiFile<String>(
-            files: [
-              'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg'
+          value: MultiFile<String>.fromFiles(
+            [
+              'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg',
+              // just to test `fromFiles` factory
+              null,
             ],
-            platformFiles: [],
           ),
         ),
       });

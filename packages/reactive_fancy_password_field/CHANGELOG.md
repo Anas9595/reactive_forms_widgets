@@ -1,3 +1,15 @@
+## [2.1.1]
+
+* show/hide password button fix
+
+## [2.1.0]
+
+* fancy_password_field: ^2.0.6
+
+## [2.0.1]
+
+* Support `reactive_forms: 17.x`
+
 ## [2.0.0]
 
 * rf16

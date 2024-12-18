@@ -9,7 +9,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 ///
 /// A [ReactiveForm] ancestor is required.
 ///
-class ReactiveFluentCheckBox<T> extends ReactiveFormField<T, bool> {
+class ReactiveFluentCheckBox<T> extends ReactiveFocusableFormField<T, bool> {
   /// Creates a [ReactiveFluentCheckBox] that contains a [FluentUi].
   ///
   /// Can optionally provide a [formControl] to bind this widget to a control.
@@ -74,31 +74,22 @@ class ReactiveFluentCheckBox<T> extends ReactiveFormField<T, bool> {
   /// For documentation about the various parameters, see the [FluentUi] class
   /// and [FluentUi], the constructor.
   ReactiveFluentCheckBox({
-    Key? key,
+    super.key,
     Key? widgetKey,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, bool>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
+    super.focusNode,
 
     //////////////////////////////////////////////////////////////////////////
-    FocusNode? focusNode,
     CheckboxThemeData? style,
     Widget? content,
     String? semanticLabel,
     bool autofocus = false,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
-          focusNode: focusNode,
           builder: (field) {
-            final state = field as _ReactiveFluentCheckBoxState<T>;
-
             return Checkbox(
               key: widgetKey,
               checked: field.value,
@@ -106,16 +97,9 @@ class ReactiveFluentCheckBox<T> extends ReactiveFormField<T, bool> {
               style: style,
               content: content,
               semanticLabel: semanticLabel,
-              focusNode: state.focusNode,
+              focusNode: field.focusNode,
               autofocus: autofocus,
             );
           },
         );
-
-  @override
-  ReactiveFormFieldState<T, bool> createState() =>
-      _ReactiveFluentCheckBoxState<T>();
 }
-
-class _ReactiveFluentCheckBoxState<T>
-    extends ReactiveFocusableFormFieldState<T, bool> {}

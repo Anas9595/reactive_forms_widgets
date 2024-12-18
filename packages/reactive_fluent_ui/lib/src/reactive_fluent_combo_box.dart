@@ -9,7 +9,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 ///
 /// A [ReactiveForm] ancestor is required.
 ///
-class ReactiveFluentComboBox<T, V> extends ReactiveFormField<T, V> {
+class ReactiveFluentComboBox<T, V> extends ReactiveFocusableFormField<T, V> {
   /// Creates a [ReactiveFluentComboBox] that contains a [FluentUi].
   ///
   /// Can optionally provide a [formControl] to bind this widget to a control.
@@ -74,13 +74,14 @@ class ReactiveFluentComboBox<T, V> extends ReactiveFormField<T, V> {
   /// For documentation about the various parameters, see the [FluentUi] class
   /// and [FluentUi], the constructor.
   ReactiveFluentComboBox({
-    Key? key,
+    super.key,
     Key? comboBoxKey,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, V>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
+    super.focusNode,
 
     //////////////////////////////////////////////////////////////////////////
     required List<ComboBoxItem<V>> items,
@@ -103,18 +104,11 @@ class ReactiveFluentComboBox<T, V> extends ReactiveFormField<T, V> {
     bool? enableFeedback,
     AlignmentGeometry alignment = AlignmentDirectional.centerStart,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
-            final state = field as _ReactiveFluentComboBoxState<T, V>;
             return ComboboxFormField<V>(
               key: comboBoxKey,
               items: items,
-              focusNode: state.focusNode,
+              focusNode: field.focusNode,
               value: field.value,
               selectedItemBuilder: selectedItemBuilder,
               placeholder: placeholder,
@@ -140,11 +134,4 @@ class ReactiveFluentComboBox<T, V> extends ReactiveFormField<T, V> {
             );
           },
         );
-
-  @override
-  ReactiveFormFieldState<T, V> createState() =>
-      _ReactiveFluentComboBoxState<T, V>();
 }
-
-class _ReactiveFluentComboBoxState<T, V>
-    extends ReactiveFocusableFormFieldState<T, V> {}

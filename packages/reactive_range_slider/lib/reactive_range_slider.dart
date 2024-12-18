@@ -24,12 +24,12 @@ class ReactiveRangeSlider<T> extends ReactiveFormField<T, RangeValues> {
   /// Must provide one of the arguments [formControl] or a [formControlName],
   /// but not both at the same time.
   ReactiveRangeSlider({
-    Key? key,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, RangeValues>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.key,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     InputDecoration? decoration,
@@ -44,13 +44,9 @@ class ReactiveRangeSlider<T> extends ReactiveFormField<T, RangeValues> {
     Color? activeColor,
     Color? inactiveColor,
     SemanticFormatterCallback? semanticFormatterCallback,
+    MaterialStateProperty<MouseCursor?>? mouseCursor,
+    MaterialStateProperty<Color?>? overlayColor,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          validationMessages: validationMessages,
-          valueAccessor: valueAccessor,
-          showErrors: showErrors,
           builder: (field) {
             final InputDecoration effectiveDecoration = (decoration ??
                     const InputDecoration())
@@ -90,6 +86,8 @@ class ReactiveRangeSlider<T> extends ReactiveFormField<T, RangeValues> {
                   semanticFormatterCallback: semanticFormatterCallback,
                   onChangeEnd: onChangeEnd,
                   onChangeStart: onChangeStart,
+                  overlayColor: overlayColor,
+                  mouseCursor: mouseCursor,
                 ),
               ),
             );

@@ -9,7 +9,8 @@ import 'package:reactive_forms/reactive_forms.dart';
 ///
 /// A [ReactiveForm] ancestor is required.
 ///
-class ReactiveFluentTimePicker<T> extends ReactiveFormField<T, DateTime> {
+class ReactiveFluentTimePicker<T>
+    extends ReactiveFocusableFormField<T, DateTime> {
   /// Creates a [ReactiveFluentTimePicker] that contains a [FluentUi].
   ///
   /// Can optionally provide a [formControl] to bind this widget to a control.
@@ -74,13 +75,13 @@ class ReactiveFluentTimePicker<T> extends ReactiveFormField<T, DateTime> {
   /// For documentation about the various parameters, see the [FluentUi] class
   /// and [FluentUi], the constructor.
   ReactiveFluentTimePicker({
-    Key? key,
+    super.key,
     Key? comboBoxKey,
-    String? formControlName,
-    FormControl<T>? formControl,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ControlValueAccessor<T, DateTime>? valueAccessor,
-    ShowErrorsFunction<T>? showErrors,
+    super.formControlName,
+    super.formControl,
+    super.validationMessages,
+    super.valueAccessor,
+    super.showErrors,
 
     //////////////////////////////////////////////////////////////////////////
     VoidCallback? onCancel,
@@ -95,18 +96,12 @@ class ReactiveFluentTimePicker<T> extends ReactiveFormField<T, DateTime> {
       bottom: 4.0,
     ),
     double popupHeight = 400,
+    Locale? locale,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          valueAccessor: valueAccessor,
-          validationMessages: validationMessages,
-          showErrors: showErrors,
           builder: (field) {
-            final state = field as _ReactiveFluentTimePickerState<T>;
             return TimePicker(
               key: comboBoxKey,
-              focusNode: state.focusNode,
+              focusNode: field.focusNode,
               selected: field.value,
               onChanged: field.didChange,
               onCancel: onCancel,
@@ -116,14 +111,9 @@ class ReactiveFluentTimePicker<T> extends ReactiveFormField<T, DateTime> {
               popupHeight: popupHeight,
               autofocus: autofocus,
               minuteIncrement: minuteIncrement,
+              hourFormat: hourFormat,
+              locale: locale,
             );
           },
         );
-
-  @override
-  ReactiveFormFieldState<T, DateTime> createState() =>
-      _ReactiveFluentTimePickerState<T>();
 }
-
-class _ReactiveFluentTimePickerState<T>
-    extends ReactiveFocusableFormFieldState<T, DateTime> {}

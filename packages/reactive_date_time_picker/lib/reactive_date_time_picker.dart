@@ -56,12 +56,12 @@ class ReactiveDateTimePicker extends ReactiveFormField<DateTime, String> {
   /// For documentation about the various parameters, see the [showTimePicker]
   /// function parameters.
   ReactiveDateTimePicker({
-    Key? key,
-    String? formControlName,
-    FormControl<DateTime>? formControl,
+    super.key,
+    super.formControlName,
+    super.formControl,
     ControlValueAccessor<DateTime, String>? valueAccessor,
-    Map<String, ValidationMessageFunction>? validationMessages,
-    ShowErrorsFunction<DateTime>? showErrors,
+    super.validationMessages,
+    super.showErrors,
 
     ////////////////////////////////////////////////////////////////////////////
     TextStyle? style,
@@ -101,13 +101,8 @@ class ReactiveDateTimePicker extends ReactiveFormField<DateTime, String> {
     TimePickerEntryMode timePickerEntryMode = TimePickerEntryMode.dial,
     RouteSettings? timePickerRouteSettings,
   }) : super(
-          key: key,
-          formControl: formControl,
-          formControlName: formControlName,
-          validationMessages: validationMessages,
           valueAccessor:
               valueAccessor ?? _effectiveValueAccessor(type, dateFormat),
-          showErrors: showErrors,
           builder: (field) {
             Widget? suffixIcon = decoration?.suffixIcon;
             final isEmptyValue =
@@ -261,17 +256,13 @@ class ReactiveDateTimePicker extends ReactiveFormField<DateTime, String> {
   }
 
   static DateTime _combine(DateTime? date, TimeOfDay? time) {
-    DateTime dateTime = DateTime(0);
-
-    if (date != null) {
-      dateTime = dateTime.add(date.difference(dateTime));
-    }
-
-    if (time != null) {
-      dateTime = dateTime.add(Duration(hours: time.hour, minutes: time.minute));
-    }
-
-    return dateTime;
+    return DateTime(
+      date?.year ?? 0,
+      date?.month ?? 1,
+      date?.day ?? 1,
+      time?.hour ?? 0,
+      time?.minute ?? 0,
+    );
   }
 
   static DateTime _getInitialDate(DateTime? fieldValue, DateTime lastDate) {
