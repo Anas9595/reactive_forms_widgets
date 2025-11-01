@@ -106,8 +106,8 @@ class MyApp1 extends StatelessWidget {
               builder: (context, control) {
                 return Text(control.value ?? '');
               },
-              listener: (context, control) {
-                // print(control.value);
+              listenerOnInit: (control) {
+                print("ReactiveFormControlValueConsumer => listenOnInit: true");
               },
               buildWhen: (control, prev, curr) {
                 debugPrint('Focus => $prev -- c => $curr');
@@ -158,17 +158,17 @@ class MyApp1 extends StatelessWidget {
             //   formControl: form.controls['input']! as AbstractControl<String>,
             //   child: Text(c.toString()),
             // ),
-            // ReactiveFormControlValueListener<String>(
-            //   listener: (context, control) {
-            //     // print(value);
-            //   },
-            //   listenWhen: (control, prev, curr) {
-            //     debugPrint('Value => $prev -- c => $curr');
-            //     return true;
-            //   },
-            //   formControl: form.controls['input']! as AbstractControl<String>,
-            //   child: Text(c.toString()),
-            // ),
+            ReactiveFormControlValueListener<String>(
+              listenerOnInit: (control) {
+                print("ReactiveFormControlValueListener => listener");
+              },
+              listenWhen: (control, prev, curr) {
+                debugPrint('Value => $prev -- c => $curr');
+                return true;
+              },
+              formControl: form.controls['input']! as AbstractControl<String>,
+              child: Text(c.toString()),
+            ),
             // ReactiveFormControlValueListener<String>(
             //   listener: (context, control) {
             //     // print(value);

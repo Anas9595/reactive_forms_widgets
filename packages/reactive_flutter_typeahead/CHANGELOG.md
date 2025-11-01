@@ -1,3 +1,19 @@
+## [3.0.1]
+
+* Rf18
+
+## [2.1.3]
+
+* Support `reactive_forms: 18.x`
+
+## [2.1.2]
+
+* FIX: Suggestion box was not closed on selection
+
+## [3.0.0]
+
+* flutter_typeahead version bump
+
 ## [2.1.1]
 
 * Support `reactive_forms: 17.x`
